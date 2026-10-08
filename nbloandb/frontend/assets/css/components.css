@@ -1,0 +1,117 @@
+/* ปุ่ม */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: var(--tap); padding: 0 var(--space-3); border-radius: var(--radius);
+  border: 1px solid var(--ink); background: var(--surface); color: var(--ink);
+  font: inherit; font-weight: 500; cursor: pointer; text-decoration: none;
+}
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-danger { border-color: var(--alert); color: var(--alert); }
+.btn[disabled], .btn[aria-disabled='true'] { opacity: .5; cursor: not-allowed; }
+.btn-link { border: 0; background: none; text-decoration: underline; color: var(--busy); font: inherit; cursor: pointer; }
+.btn-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* ฟอร์ม */
+.field { margin-bottom: var(--space-3); }
+.field label { display: block; font-weight: 500; margin-bottom: var(--space-1); }
+.field input, .field select, .field textarea {
+  width: 100%; min-height: var(--tap); padding: var(--space-2) var(--space-3);
+  font: inherit; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.field input[aria-invalid='true'], .field select[aria-invalid='true'], .field textarea[aria-invalid='true'] { border-color: var(--alert); }
+.field-hint { color: var(--muted); font-size: .9rem; margin-top: var(--space-1); }
+.field-error { color: var(--alert); font-size: .9rem; margin-top: var(--space-1); }
+.form-error { color: var(--alert); border-left: 4px solid var(--alert); padding: var(--space-2) var(--space-3); margin-bottom: var(--space-3); background: var(--surface); }
+
+/* ป้ายสถานะ: ต้องมีข้อความเสมอ */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px;
+  font-size: .85rem; font-weight: 500; border: 1px solid currentColor; background: var(--surface);
+}
+.badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.badge-ok { color: var(--ok); }
+.badge-busy { color: var(--busy); }
+.badge-hold { color: var(--hold); }
+.badge-alert { color: var(--alert); }
+.badge-muted { color: var(--muted); }
+
+/* ตาราง: เลื่อนแนวนอนในกรอบของตัวเอง */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.table { width: 100%; border-collapse: collapse; min-width: 560px; }
+.table th, .table td { text-align: left; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: top; }
+.table th { font-weight: 700; background: var(--paper); }
+.table tr:last-child td { border-bottom: 0; }
+
+.pagination { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3); flex-wrap: wrap; }
+
+/* modal */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(20, 33, 61, .55); display: flex; align-items: flex-end; justify-content: center; z-index: 50; }
+.modal { background: var(--surface); width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: var(--space-3); border-radius: var(--radius) var(--radius) 0 0; }
+@media (min-width: 600px) { .modal-backdrop { align-items: center; } .modal { border-radius: var(--radius); } }
+.modal-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-3); flex-wrap: wrap; }
+
+/* toast */
+#toast-region { position: fixed; top: var(--space-3); left: var(--space-3); right: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); z-index: 60; pointer-events: none; }
+.toast { pointer-events: auto; background: var(--ink); color: #fff; padding: var(--space-2) var(--space-3); border-radius: var(--radius); max-width: 480px; }
+.toast-error { background: var(--alert); }
+.toast .btn { margin-top: var(--space-2); }
+
+/* skeleton / empty / error */
+.skeleton { background: var(--line); border-radius: var(--radius); min-height: 80px; animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .5; } }
+.empty-state, .error-state { padding: var(--space-4) 0; color: var(--muted); }
+.error-state { color: var(--alert); }
+
+/* บัตรยืม: จุดเด่นจุดเดียว */
+.loan-ticket { background: var(--surface); border: 2px solid var(--ink); border-left-width: 10px; border-radius: var(--radius); padding: var(--space-3); margin-bottom: var(--space-3); }
+.loan-ticket[data-tone='hold'] { border-color: var(--hold); }
+.loan-ticket[data-tone='alert'] { border-color: var(--alert); }
+.loan-ticket[data-tone='muted'] { border-color: var(--muted); }
+.loan-ticket .ticket-asset { color: var(--muted); margin: 0; }
+.loan-ticket .ticket-time { font-family: var(--font-head); font-weight: 700; font-size: 2rem; line-height: 1.2; margin: var(--space-2) 0; }
+.loan-ticket[data-tone='hold'] .ticket-time { color: var(--hold); }
+.loan-ticket[data-tone='alert'] .ticket-time { color: var(--alert); }
+.loan-ticket[data-tone='muted'] .ticket-time { color: var(--muted); }
+
+.tabs { display: flex; gap: var(--space-2); border-bottom: 1px solid var(--line); margin-bottom: var(--space-3); }
+.tabs button { min-height: var(--tap); padding: 0 var(--space-3); border: 0; background: none; font: inherit; cursor: pointer; color: var(--muted); }
+.tabs button[aria-selected='true'] { color: var(--ink); font-weight: 700; box-shadow: inset 0 -3px 0 var(--ink); }
+
+.bell { position: relative; color: #fff; text-decoration: none; min-height: var(--tap); display: inline-flex; align-items: center; padding: 0 var(--space-2); }
+.bell-count { background: var(--alert); color: #fff; border-radius: 999px; padding: 0 7px; margin-left: 4px; font-size: .8rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ตัวกรอง / หัวข้อส่วน / รายละเอียด */
+.page-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-3); }
+.page-head h1 { margin: 0; }
+.section { margin-bottom: var(--space-4); }
+.filter-form { margin-bottom: var(--space-3); }
+.filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0 var(--space-3); }
+.field-check { display: flex; align-items: flex-end; }
+.field-check label { display: flex; align-items: center; gap: var(--space-2); min-height: var(--tap); }
+.field-check input { width: 20px; height: 20px; min-height: 0; }
+.dl { display: grid; grid-template-columns: max-content 1fr; gap: var(--space-1) var(--space-3); margin: 0 0 var(--space-3); }
+.dl dt { color: var(--muted); }
+.dl dd { margin: 0; word-break: break-word; }
+.list-plain { list-style: none; margin: 0; padding: 0; }
+.list-row { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-2) var(--space-3); margin-bottom: var(--space-2); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.row-main { flex: 1 1 220px; min-width: 0; }
+.row-main p { margin: 0; }
+.muted { color: var(--muted); }
+.avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; background: var(--line); display: block; margin-bottom: var(--space-2); }
+.notice { border-left: 4px solid var(--hold); background: var(--surface); padding: var(--space-2) var(--space-3); margin-bottom: var(--space-3); }
+.notif { width: 100%; text-align: left; font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; min-height: var(--tap); }
+.notif.unread .notif-title { font-weight: 700; }
+.return-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-3); margin-bottom: var(--space-3); }
+.return-card.is-selected { outline: 3px solid var(--busy); }
+.chart { width: 100%; height: auto; max-width: 720px; }
+.chart text { font-family: var(--font-body); fill: var(--ink); font-size: 12px; }
+.radio-row { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-2); }
+.radio-row label { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--tap); }
+.radio-row input { width: 20px; height: 20px; min-height: 0; }
+.diff-old { color: var(--alert); }
+.diff-new { color: var(--ok); }

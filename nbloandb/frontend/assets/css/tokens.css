@@ -1,0 +1,25 @@
+/* Design tokens ตาม frontend-codegen-prompt.md ข้อ 4 */
+:root {
+  --ink: #14213d;
+  --paper: #f6f8fa;
+  --surface: #ffffff;
+  --line: #d0d7de;
+  --ok: #1a7f4b;
+  --busy: #1f5fbf;
+  --hold: #a86b00;
+  --alert: #b42318;
+  --muted: #5b6573;
+
+  --font-body: 'IBM Plex Sans Thai Looped', Tahoma, sans-serif;
+  --font-head: 'IBM Plex Sans Thai', Tahoma, sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --radius: 6px;
+  --tap: 44px;
+  --nav-h: 60px;
+  --sidebar-w: 240px;
+}
