@@ -1,0 +1,20 @@
+{
+  "name": "notebook-loan-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ระบบยืมคืนโน๊ตบุ๊ค - backend (model layer)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test:setup-db": "node scripts/create-test-db.js",
+    "pretest": "npm run test:setup-db",
+    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.6",
+    "mysql2": "^3.24.5"
+  }
+}
