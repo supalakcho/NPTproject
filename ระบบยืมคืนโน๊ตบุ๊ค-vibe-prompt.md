@@ -38,7 +38,7 @@
 - สมาชิก (Member)
 
 **Tech Stack ที่ต้องการใช้:**  
-- Frontend: React  
+- Frontend: javascript  
 - Backend: Node.js / Express  
 - Database: MySQL / MariaDB  
 - Hosting/Deployment: XAMPP / Localhost
