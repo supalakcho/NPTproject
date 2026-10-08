@@ -3,18 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "ระบบยืมคืนโน๊ตบุ๊ค - backend (model layer)",
+  "description": "ระบบยืมคืนโน๊ตบุ๊ค - backend (model, service, HTTP API)",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "test:setup-db": "node scripts/create-test-db.js",
     "pretest": "npm run test:setup-db",
-    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\""
+    "test": "npm run test:models && npm run test:services",
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test:models": "node --test --test-concurrency=1 \"tests/models/**/*.test.js\"",
+    "test:services": "npm run test:setup-db && node --test --test-concurrency=1 \"tests/services/**/*.test.js\" \"tests/http/**/*.test.js\""
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.6",
-    "mysql2": "^3.24.5"
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "mysql2": "^3.24.5",
+    "node-cron": "^4.6.0"
   }
 }
