@@ -196,7 +196,7 @@ describe('ฟอร์มอื่น', () => {
   });
 
   it('A-08 ตั้งค่าผิดช่วงตัวเดียวก็ไม่ผ่าน', () => {
-    const ok = { maxLoanHours: '12', reservationMaxDaysAhead: '7', reservationGraceMinutes: '30', notifyBeforeDueMinutes: '30', maxActiveLoansPerUser: '1' };
+    const ok = { maxLoanHours: '12', reservationMaxDaysAhead: '7', reservationGraceMinutes: '30', reminderBeforeMinutes: '30', maxActiveLoansPerUser: '1' };
     expect(validateSettings(ok).valid).toBe(true);
     const r = validateSettings({ ...ok, maxLoanHours: '25' });
     expect(r.valid).toBe(false);

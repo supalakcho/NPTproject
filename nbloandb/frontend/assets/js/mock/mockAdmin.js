@@ -8,7 +8,7 @@ const SETTING_META = {
   maxLoanHours: 'ระยะเวลายืมสูงสุดต่อครั้ง (ชั่วโมง)',
   reservationMaxDaysAhead: 'จองล่วงหน้าได้ไม่เกิน (วัน)',
   reservationGraceMinutes: 'เวลาผ่อนผันรับเครื่องหลังเริ่มจอง (นาที)',
-  notifyBeforeDueMinutes: 'แจ้งเตือนก่อนครบกำหนดคืน (นาที)',
+  reminderBeforeMinutes: 'แจ้งเตือนก่อนครบกำหนดคืน (นาที)',
   maxActiveLoansPerUser: 'จำนวนเครื่องที่ยืมพร้อมกันได้สูงสุดต่อคน',
 };
 
@@ -21,8 +21,13 @@ export function registerAdminRoutes(H) {
     includesText, validationError, listNotebooks, fullName,
   } = H;
 
-  const CATALOG = { perm: 'catalog.manage' };
-  const USERS = { perm: 'user.manage' };
+  const BRAND = { perm: 'brand.manage' };
+  const MODEL = { perm: 'model.manage' };
+  const NB_CREATE = { perm: 'notebook.create' };
+  const NB_UPDATE = { perm: 'notebook.update' };
+  const NB_DELETE = { perm: 'notebook.delete' };
+  const USER_VIEW = { perm: 'user.view_all' };
+  const USER_EDIT = { perm: 'user.update_any' };
   const REPORT = { perm: 'report.view' };
   const bool = (v) => v === 'true';
 
@@ -36,7 +41,7 @@ export function registerAdminRoutes(H) {
   addRoute('GET', '/brands', ({ db, query }) => {
     const items = db.brands.filter((b) => (bool(query.includeDeleted) || !b.deletedAt) && (!query.keyword || includesText(b.name, query.keyword)));
     return listResult(items, query, { name: (b) => b.name.toLowerCase(), createdAt: (b) => b.createdAt }, 'name:asc', brandView);
-  }, CATALOG);
+  }, BRAND);
 
   const nameTaken = (db, name, exceptId) => db.brands.some((b) => !b.deletedAt && b.id !== exceptId && b.name.toLowerCase() === name.trim().toLowerCase());
 
@@ -49,7 +54,7 @@ export function registerAdminRoutes(H) {
     db.brands.push(b);
     audit(ctx, 'CREATE', 'brands', b.id, null, { name: b.name });
     return created(brandView(b));
-  }, CATALOG);
+  }, BRAND);
 
   addRoute('PATCH', '/brands/([^/]+)', (ctx) => {
     const { db, now, params, body } = ctx;
@@ -62,7 +67,7 @@ export function registerAdminRoutes(H) {
     Object.assign(b, { name: body.name.trim(), updatedAt: now });
     audit(ctx, 'UPDATE', 'brands', b.id, { name: old }, { name: b.name });
     return ok(brandView(b));
-  }, CATALOG);
+  }, BRAND);
 
   addRoute('DELETE', '/brands/([^/]+)', (ctx) => {
     const { db, now, params } = ctx;
@@ -73,7 +78,7 @@ export function registerAdminRoutes(H) {
     b.deletedAt = now;
     audit(ctx, 'DELETE', 'brands', b.id, { name: b.name }, null);
     return ok(null);
-  }, CATALOG);
+  }, BRAND);
 
   addRoute('POST', '/brands/([^/]+)/restore', (ctx) => {
     const { db, now, params } = ctx;
@@ -82,7 +87,7 @@ export function registerAdminRoutes(H) {
     Object.assign(b, { deletedAt: null, updatedAt: now });
     audit(ctx, 'UPDATE', 'brands', b.id, { deletedAt: 'set' }, { event: 'restore' });
     return ok(brandView(b));
-  }, CATALOG);
+  }, BRAND);
 
   // ---------- รุ่น D3–D7 ----------
   const modelFields = (body) => ({
@@ -104,7 +109,7 @@ export function registerAdminRoutes(H) {
     db.models.push(m);
     audit(ctx, 'CREATE', 'notebook_models', m.id, null, f);
     return created(modelView(db, m));
-  }, CATALOG);
+  }, MODEL);
 
   addRoute('PATCH', '/notebook-models/([^/]+)', (ctx) => {
     const { db, now, params, body } = ctx;
@@ -121,7 +126,7 @@ export function registerAdminRoutes(H) {
     Object.assign(m, f, { updatedAt: now });
     audit(ctx, 'UPDATE', 'notebook_models', m.id, old, f);
     return ok(modelView(db, m));
-  }, CATALOG);
+  }, MODEL);
 
   addRoute('POST', '/notebook-models/([^/]+)/image', (ctx) => {
     const { db, now, params, file } = ctx;
@@ -134,7 +139,7 @@ export function registerAdminRoutes(H) {
     m.updatedAt = now;
     audit(ctx, 'UPDATE', 'notebook_models', m.id, null, { event: 'image' });
     return ok(modelView(db, m));
-  }, CATALOG);
+  }, MODEL);
 
   addRoute('DELETE', '/notebook-models/([^/]+)', (ctx) => {
     const { db, now, params } = ctx;
@@ -145,7 +150,7 @@ export function registerAdminRoutes(H) {
     m.deletedAt = now;
     audit(ctx, 'DELETE', 'notebook_models', m.id, { modelName: m.modelName }, null);
     return ok(null);
-  }, CATALOG);
+  }, MODEL);
 
   addRoute('POST', '/notebook-models/([^/]+)/restore', (ctx) => {
     const { db, now, params } = ctx;
@@ -155,7 +160,7 @@ export function registerAdminRoutes(H) {
     Object.assign(m, { deletedAt: null, updatedAt: now });
     audit(ctx, 'UPDATE', 'notebook_models', m.id, null, { event: 'restore' });
     return ok(modelView(db, m));
-  }, CATALOG);
+  }, MODEL);
 
   // ---------- เครื่อง N5–N8 ----------
   const nbFields = ['modelId', 'assetCode', 'serialNumber', 'conditionStatus', 'conditionNote', 'purchasedAt'];
@@ -183,7 +188,7 @@ export function registerAdminRoutes(H) {
     db.notebooks.push(nb);
     audit(ctx, 'CREATE', 'notebooks', nb.id, null, { assetCode: nb.assetCode });
     return created(notebookView(db, nb, now, true));
-  }, CATALOG);
+  }, NB_CREATE);
 
   addRoute('PATCH', '/notebooks/([^/]+)', (ctx) => {
     const { db, now, params, body } = ctx;
@@ -213,7 +218,7 @@ export function registerAdminRoutes(H) {
     Object.assign(nb, f, { updatedAt: now });
     audit(ctx, 'UPDATE', 'notebooks', nb.id, old, f);
     return ok({ notebook: notebookView(db, nb, now, true), warnings: { affectedReservations: affected } });
-  }, CATALOG);
+  }, NB_UPDATE);
 
   addRoute('DELETE', '/notebooks/([^/]+)', (ctx) => {
     const { db, now, params } = ctx;
@@ -225,7 +230,7 @@ export function registerAdminRoutes(H) {
     nb.deletedAt = now;
     audit(ctx, 'DELETE', 'notebooks', nb.id, { assetCode: nb.assetCode }, null);
     return ok(null);
-  }, CATALOG);
+  }, NB_DELETE);
 
   addRoute('POST', '/notebooks/([^/]+)/restore', (ctx) => {
     const { db, now, params } = ctx;
@@ -234,7 +239,7 @@ export function registerAdminRoutes(H) {
     Object.assign(nb, { deletedAt: null, updatedAt: now });
     audit(ctx, 'UPDATE', 'notebooks', nb.id, null, { event: 'restore' });
     return ok(notebookView(db, nb, now, true));
-  }, CATALOG);
+  }, NB_UPDATE);
 
   // ---------- สมาชิก U1–U7 ----------
   const activeAdmins = (db) => db.users.filter((u) => u.roleCode === 'admin' && u.isActive && !u.deletedAt);
@@ -253,12 +258,12 @@ export function registerAdminRoutes(H) {
     return listResult(items, query, {
       createdAt: (u) => u.createdAt, firstName: (u) => u.firstName, email: (u) => u.email, lastLoginAt: (u) => u.lastLoginAt ?? 0,
     }, 'createdAt:desc', (u) => userView(u, true));
-  }, USERS);
+  }, USER_VIEW);
 
   addRoute('GET', '/users/([^/]+)', ({ db, params }) => {
     const u = findUser(db, params[0]);
     return ok({ ...userView(u, true), activeLoanCount: db.loans.filter((l) => l.userId === u.id && isLoanHeld(l)).length });
-  }, USERS);
+  }, USER_VIEW);
 
   addRoute('PATCH', '/users/([^/]+)', (ctx) => {
     const { db, now, params, body } = ctx;
@@ -286,7 +291,7 @@ export function registerAdminRoutes(H) {
     });
     audit(ctx, 'UPDATE', 'users', u.id, old, { firstName: u.firstName, lastName: u.lastName, phone: u.phone, email: u.email });
     return ok(userView(u, true));
-  }, USERS);
+  }, USER_EDIT);
 
   addRoute('POST', '/users/([^/]+)/suspend', (ctx) => {
     const { db, now, user, params } = ctx;
@@ -296,7 +301,7 @@ export function registerAdminRoutes(H) {
     Object.assign(u, { isActive: false, updatedAt: now });
     audit(ctx, 'UPDATE', 'users', u.id, { isActive: true }, { event: 'suspend', isActive: false });
     return ok(userView(u, true));
-  }, USERS);
+  }, USER_EDIT);
 
   addRoute('POST', '/users/([^/]+)/activate', (ctx) => {
     const { db, now, params } = ctx;
@@ -304,7 +309,7 @@ export function registerAdminRoutes(H) {
     Object.assign(u, { isActive: true, updatedAt: now });
     audit(ctx, 'UPDATE', 'users', u.id, { isActive: false }, { event: 'activate', isActive: true });
     return ok(userView(u, true));
-  }, USERS);
+  }, USER_EDIT);
 
   addRoute('DELETE', '/users/([^/]+)', (ctx) => {
     const { db, now, user, params } = ctx;
@@ -316,7 +321,7 @@ export function registerAdminRoutes(H) {
     Object.assign(u, { deletedAt: now, updatedAt: now });
     audit(ctx, 'DELETE', 'users', u.id, { email: u.email }, null);
     return ok(null);
-  }, USERS);
+  }, USER_EDIT);
 
   addRoute('POST', '/users/([^/]+)/restore', (ctx) => {
     const { db, now, params } = ctx;
@@ -324,7 +329,7 @@ export function registerAdminRoutes(H) {
     Object.assign(u, { deletedAt: null, updatedAt: now });
     audit(ctx, 'UPDATE', 'users', u.id, null, { event: 'restore' });
     return ok(userView(u, true));
-  }, USERS);
+  }, USER_EDIT);
 
   // ---------- ตั้งค่า S2, S3 ----------
   const settingList = (db) => Object.entries(db.settings).map(([key, value]) => ({

@@ -13,10 +13,16 @@ export const ROLES = {
 };
 
 export const PERMISSIONS = {
-  member: ['notebook.view', 'loan.create', 'loan.extend', 'loan.return', 'reservation.create'],
+  // รหัสตาม seed ใน notebook_loan.sql (สมาชิกได้เฉพาะสิทธิ์ของตัวเอง แอดมินได้ทุกสิทธิ์)
+  member: [
+    'notebook.view', 'loan.create', 'loan.view_own', 'loan.return_request', 'loan.extend', 'reservation.create',
+    'reservation.view_own', 'reservation.cancel_own', 'user.update_own', 'notification.view_own',
+  ],
   admin: [
-    'notebook.view', 'catalog.manage', 'loan.view_all', 'loan.confirm_return', 'loan.cancel',
-    'reservation.view_all', 'reservation.cancel_any', 'user.manage', 'report.view', 'setting.manage', 'audit.view',
+    'notebook.view', 'notebook.create', 'notebook.update', 'notebook.delete', 'brand.manage', 'model.manage',
+    'loan.create', 'loan.view_own', 'loan.view_all', 'loan.return_request', 'loan.extend', 'loan.receive', 'loan.cancel',
+    'reservation.create', 'reservation.view_own', 'reservation.view_all', 'reservation.cancel_own', 'reservation.cancel_any',
+    'user.update_own', 'user.view_all', 'user.update_any', 'notification.view_own', 'report.view', 'setting.manage', 'audit.view',
   ],
 };
 
@@ -161,7 +167,7 @@ export function createSeed(now) {
     maxLoanHours: 24,
     reservationMaxDaysAhead: 7,
     reservationGraceMinutes: 30,
-    notifyBeforeDueMinutes: 30,
+    reminderBeforeMinutes: 30,
     maxActiveLoansPerUser: 1,
   };
 

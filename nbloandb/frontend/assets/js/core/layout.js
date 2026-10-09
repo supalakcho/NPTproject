@@ -12,13 +12,13 @@ const MEMBER_NAV = [
 ];
 
 const ADMIN_NAV = [
-  { key: 'returns', label: 'รอรับคืน', href: 'admin/returns.html', permission: 'loan.confirm_return' },
-  { key: 'notebooks', label: 'เครื่อง', href: 'admin/notebooks.html', permission: 'catalog.manage' },
-  { key: 'models', label: 'รุ่น', href: 'admin/models.html', permission: 'catalog.manage' },
-  { key: 'brands', label: 'ยี่ห้อ', href: 'admin/brands.html', permission: 'catalog.manage' },
+  { key: 'returns', label: 'รอรับคืน', href: 'admin/returns.html', permission: 'loan.receive' },
+  { key: 'notebooks', label: 'เครื่อง', href: 'admin/notebooks.html', permission: 'notebook.update' },
+  { key: 'models', label: 'รุ่น', href: 'admin/models.html', permission: 'model.manage' },
+  { key: 'brands', label: 'ยี่ห้อ', href: 'admin/brands.html', permission: 'brand.manage' },
   { key: 'loans', label: 'การยืม', href: 'admin/loans.html', permission: 'loan.view_all' },
   { key: 'reservations', label: 'การจอง', href: 'admin/reservations.html', permission: 'reservation.view_all' },
-  { key: 'users', label: 'สมาชิก', href: 'admin/users.html', permission: 'user.manage' },
+  { key: 'users', label: 'สมาชิก', href: 'admin/users.html', permission: 'user.view_all' },
   { key: 'reports', label: 'รายงาน', href: 'admin/reports.html', permission: 'report.view' },
   { key: 'settings', label: 'ตั้งค่า', href: 'admin/settings.html', permission: 'setting.manage' },
   { key: 'audit-logs', label: 'Audit Log', href: 'admin/audit-logs.html', permission: 'audit.view' },

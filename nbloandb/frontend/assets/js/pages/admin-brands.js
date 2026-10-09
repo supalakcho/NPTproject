@@ -12,7 +12,7 @@ import { presentError } from '../utils/errors.js';
 import { cleanQuery, readQuery, writeQuery } from '../utils/query.js';
 import { validateBrand } from '../utils/validate.js';
 
-const main = await startPage({ role: 'admin', permission: 'catalog.manage', active: 'brands' });
+const main = await startPage({ role: 'admin', permission: 'brand.manage', active: 'brands' });
 const query = readQuery();
 
 function openBrandForm(brand) {

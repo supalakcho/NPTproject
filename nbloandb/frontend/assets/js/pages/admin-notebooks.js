@@ -14,7 +14,7 @@ import { cleanQuery, readQuery, writeQuery } from '../utils/query.js';
 import { STATUS_OPTIONS } from '../utils/status.js';
 import { validateNotebook } from '../utils/validate.js';
 
-const main = await startPage({ role: 'admin', permission: 'catalog.manage', active: 'notebooks' });
+const main = await startPage({ role: 'admin', permission: 'notebook.update', active: 'notebooks' });
 const query = readQuery();
 const ALL = { value: '', label: 'ทั้งหมด' };
 

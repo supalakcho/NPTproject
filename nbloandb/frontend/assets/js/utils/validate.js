@@ -13,7 +13,7 @@ export const SETTING_RANGES = {
   maxLoanHours: { min: 1, max: 24, label: 'ระยะเวลายืมสูงสุด (ชั่วโมง)' },
   reservationMaxDaysAhead: { min: 1, max: 30, label: 'จองล่วงหน้าได้ไม่เกิน (วัน)' },
   reservationGraceMinutes: { min: 5, max: 120, label: 'เวลาผ่อนผันรับเครื่อง (นาที)' },
-  notifyBeforeDueMinutes: { min: 5, max: 240, label: 'แจ้งเตือนก่อนครบกำหนด (นาที)' },
+  reminderBeforeMinutes: { min: 5, max: 240, label: 'แจ้งเตือนก่อนครบกำหนด (นาที)' },
   maxActiveLoansPerUser: { min: 1, max: 5, label: 'ยืมพร้อมกันได้สูงสุด (เครื่อง)' },
 };
 

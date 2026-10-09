@@ -4,32 +4,37 @@ Vanilla JavaScript (ES Modules) + HTML + CSS ไม่ใช้ framework · 1 �
 
 ## รัน
 
-**ดูหน้าเว็บด้วยข้อมูลจำลอง (ไม่ต้องมี backend)**
+ค่าเริ่มต้นคือ **ต่อ backend จริง** (`../backend`) ส่วนข้อมูลจำลอง (mock) เปิดเองได้ด้วย `?mock=1`
 
-```bash
-npm install          # ติดตั้งเครื่องมือทดสอบ (devDependencies เท่านั้น)
-npm run serve        # เปิด http://localhost:5173/login.html?mockReset=1
-```
+### ต่อ backend จริง
 
-หรือคัดลอกโฟลเดอร์นี้ไปวางใน `htdocs` ของ XAMPP โฟลเดอร์ใดก็ได้ แล้วเปิด `login.html` (ทุก path เป็น relative)
+1. เตรียม backend (ทำครั้งเดียว ตาม `../backend/README.md`): เปิด MariaDB ของ XAMPP, import `../notebook_loan.sql`, สร้าง `.env` จาก `.env.example`, `npm install`
+2. รัน backend: `cd ../backend && npm start` (http://localhost:3000/api/v1)
+3. รัน frontend: `npm install` แล้ว `npm run serve` เปิด http://localhost:5173/login.html
 
-| บัญชี | รหัสผ่าน | ใช้ดู |
-| --- | --- | --- |
-| `member@example.com` | `Passw0rd` | สมาชิกที่ไม่มีเครื่องยืม มีการจองที่ถึงเวลารับเครื่องแล้ว |
-| `member2@example.com` | `Passw0rd` | สมาชิกที่กำลังยืมเครื่อง (บัตรยืมนับถอยหลัง) |
-| `member4@example.com` | `Passw0rd` | สมาชิกที่ยืมเกินกำหนด |
-| `admin@example.com` | `Passw0rd` | แอดมิน (เห็นหน้าแอดมินทั้งหมด) |
-| `suspended@example.com` | `Passw0rd` | บัญชีที่ถูกระงับ (login ไม่ได้) |
+`npm run serve` ส่งต่อ `/api` และ `/uploads` ไปที่ backend ให้เอง (ตั้ง `BACKEND_URL` ถ้า backend ไม่ได้อยู่ที่พอร์ต 3000) จึงไม่ต้องใช้ CORS
+ถ้าวางโฟลเดอร์นี้ใน `htdocs` ของ XAMPP แทน frontend จะเรียก `http://localhost:3000/api/v1` ตรงๆ ซึ่ง **backend ต้องเปิด CORS** (ตอนนี้ backend ยังไม่มี)
 
-พารามิเตอร์ใน URL (ใช้ได้ทุกหน้าเมื่อ `USE_MOCK = true`)
+บัญชีตัวอย่างจากฐานข้อมูลจริง
 
-- `?mockReset=1` ล้างข้อมูลจำลองกลับเป็นค่าตั้งต้น
-- `?mockNow=2026-10-08T16:30:00+07:00` ตั้งเวลาปัจจุบันของ mock (เวลาเดินต่อ)
+| บัญชี | รหัสผ่าน |
+| --- | --- |
+| `admin@example.com` | `Admin@1234` |
+| `member@example.com` | `Member@1234` |
 
-## ต่อ backend จริง
+### ใช้ข้อมูลจำลอง (ไม่ต้องมี backend)
 
-แก้ `assets/js/config.js`: ตั้ง `USE_MOCK = false` และ `API_BASE_URL`
-**Backend ต้องเปิด CORS** ให้ origin ของ frontend (เช่น `http://localhost` พอร์ต 80 ของ XAMPP) เพราะ Express อยู่ที่พอร์ต 3000
+เปิด http://localhost:5173/login.html?mock=1&mockReset=1 (จำโหมดไว้ในเบราว์เซอร์ ปิดด้วย `?mock=0`) จะมีแถบ "โหมดทดสอบ (ข้อมูลจำลอง)" ด้านบน
+
+| บัญชี (รหัสผ่าน `Passw0rd`) | ใช้ดู |
+| --- | --- |
+| `member@example.com` | สมาชิกที่ไม่มีเครื่องยืม มีการจองที่ถึงเวลารับเครื่องแล้ว |
+| `member2@example.com` | สมาชิกที่กำลังยืมเครื่อง (บัตรยืมนับถอยหลัง) |
+| `member4@example.com` | สมาชิกที่ยืมเกินกำหนด |
+| `admin@example.com` | แอดมิน |
+| `suspended@example.com` | บัญชีที่ถูกระงับ |
+
+พารามิเตอร์ของ mock: `?mockReset=1` ล้างข้อมูลกลับเป็นค่าตั้งต้น · `?mockNow=2026-10-08T16:30:00+07:00` ตั้งเวลาปัจจุบัน
 
 ## ทดสอบ
 
@@ -39,7 +44,7 @@ npm run test:e2e     # E2E (Playwright + mock) บนจอ 1280px และ 375
 ```
 
 ครั้งแรกต้องติดตั้ง browser: `npx playwright install chromium`
-ผลทดสอบไม่ขึ้นกับเวลาที่รัน เพราะใช้ fake timer ของ Vitest และ `page.clock` ของ Playwright
+test ทุกชั้นทำงานกับ mock API (ตั้งค่าไว้ใน `tests/setup.js` และ `playwright.config.js`) ผลทดสอบไม่ขึ้นกับเวลาที่รัน เพราะใช้ fake timer ของ Vitest และ `page.clock` ของ Playwright
 
 ## โครงสร้าง
 
@@ -64,8 +69,10 @@ tests/                    unit, component, e2e
 | Export รายงาน PDF/Excel | ไม่ทำ |
 | ลืมรหัสผ่าน / แอดมินรีเซ็ตรหัสผ่าน | ไม่ทำ ไม่มีลิงก์ในหน้า login |
 | เวลาทำการ | ไม่จำกัด เลือกเวลาได้ตลอด 24 ชม. |
-| `notifyBeforeDueMinutes` ไม่อยู่ใน S1 | ใช้ `DUE_SOON_MINUTES` ใน `config.js` |
-| CORS ระหว่าง XAMPP (80) กับ Express (3000) | งาน backend ต้องเปิด CORS |
+| `reminderBeforeMinutes` ไม่อยู่ใน S1 | ใช้ `DUE_SOON_MINUTES` ใน `config.js` |
+| CORS ระหว่าง XAMPP (80) กับ Express (3000) | backend ยังไม่มี CORS ตอนพัฒนาใช้ proxy ของ `npm run serve` แทน |
+| รหัส permission ใน spec ไม่ตรงกับ seed จริง (เช่น `loan.confirm_return` กับ `loan.receive`) | frontend ใช้รหัสตาม `notebook_loan.sql` |
+| ชื่อ setting `notifyBeforeDueMinutes` ใน spec แต่ backend ใช้ `reminderBeforeMinutes` | frontend ใช้ `reminderBeforeMinutes` |
 | กฎ field ของเครื่อง (N5) ไม่ระบุ | ตรวจแค่ความยาว ≤ 100 และค่าบังคับ (`validateNotebook`) |
 | รายการ `type` ของแจ้งเตือนมีไม่ครบ (มีแค่ `loan_due_soon`, `loan_cancelled`, `reservation_cancelled`) | ใช้ 3 type นี้ในข้อมูลจำลอง |
 | M3/D5 mock ไม่เก็บไฟล์รูปจริง | mock สร้างรูปจำลองแทน |

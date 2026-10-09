@@ -289,9 +289,9 @@ describe('layout', () => {
   });
 
   it('แอดมินซ่อนเมนูตาม permission (เช่น รายงาน)', () => {
-    const all = ['loan.confirm_return', 'catalog.manage', 'report.view'];
+    const all = ['loan.receive', 'notebook.update', 'report.view'];
     expect(buildNavItems('admin', all).map((i) => i.key)).toContain('reports');
-    expect(buildNavItems('admin', ['loan.confirm_return']).map((i) => i.key)).toEqual(['returns', 'profile']);
+    expect(buildNavItems('admin', ['loan.receive']).map((i) => i.key)).toEqual(['returns', 'profile']);
   });
 
   it('N-01 polling: เรียกทันที, ทุกช่วง, หยุดเมื่อ tab ถูกซ่อน และเรียกใหม่เมื่อกลับมา', () => {

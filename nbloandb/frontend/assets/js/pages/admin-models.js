@@ -14,7 +14,7 @@ import { presentError } from '../utils/errors.js';
 import { cleanQuery, readQuery, writeQuery } from '../utils/query.js';
 import { validateImage, validateModel } from '../utils/validate.js';
 
-const main = await startPage({ role: 'admin', permission: 'catalog.manage', active: 'models' });
+const main = await startPage({ role: 'admin', permission: 'model.manage', active: 'models' });
 const query = readQuery();
 const { data: brands } = await api.listBrandOptions().catch((err) => { presentError(err); return { data: [] }; });
 const brandOptions = brands.map((b) => ({ value: String(b.id), label: b.name }));

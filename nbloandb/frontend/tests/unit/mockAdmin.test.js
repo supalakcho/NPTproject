@@ -147,7 +147,7 @@ describe('สมาชิก U1–U7', () => {
 describe('ตั้งค่า S2–S3', () => {
   it('อ่านครบ 5 ค่า', async () => {
     const r = await call('GET', '/settings', { token: admin });
-    expect(r.data.map((s) => s.key).sort()).toEqual(['maxActiveLoansPerUser', 'maxLoanHours', 'notifyBeforeDueMinutes', 'reservationGraceMinutes', 'reservationMaxDaysAhead']);
+    expect(r.data.map((s) => s.key).sort()).toEqual(['maxActiveLoansPerUser', 'maxLoanHours', 'reminderBeforeMinutes', 'reservationGraceMinutes', 'reservationMaxDaysAhead']);
   });
 
   it('A-08 ค่าหนึ่งผิดช่วง -> ไม่บันทึกค่าใดเลย', async () => {

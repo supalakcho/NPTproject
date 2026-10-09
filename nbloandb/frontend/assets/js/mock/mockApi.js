@@ -765,11 +765,11 @@ addRoute('GET', `/notebooks/${ID}`, notebookById, { perm: 'notebook.view' });
 
 addRoute('POST', '/loans', borrowNow, { perm: 'loan.create' });
 addRoute('GET', '/loans', listLoans, { perm: 'loan.view_all' });
-addRoute('GET', '/loans/pending-return', listPendingReturn, { perm: 'loan.confirm_return' });
+addRoute('GET', '/loans/pending-return', listPendingReturn, { perm: 'loan.receive' });
 addRoute('GET', `/loans/${ID}`, getLoan);
 addRoute('POST', `/loans/${ID}/extend`, extendLoan, { perm: 'loan.extend' });
-addRoute('POST', `/loans/${ID}/return-request`, requestReturn, { perm: 'loan.return' });
-addRoute('POST', `/loans/${ID}/confirm-return`, confirmReturn, { perm: 'loan.confirm_return' });
+addRoute('POST', `/loans/${ID}/return-request`, requestReturn, { perm: 'loan.return_request' });
+addRoute('POST', `/loans/${ID}/confirm-return`, confirmReturn, { perm: 'loan.receive' });
 addRoute('POST', `/loans/${ID}/cancel`, cancelLoan, { perm: 'loan.cancel' });
 
 addRoute('POST', '/reservations', createReservation, { perm: 'reservation.create' });

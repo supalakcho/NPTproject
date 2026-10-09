@@ -14,7 +14,7 @@ import { presentError } from '../utils/errors.js';
 import { cleanQuery, readQuery, writeQuery } from '../utils/query.js';
 import { validateProfile } from '../utils/validate.js';
 
-const main = await startPage({ role: 'admin', permission: 'user.manage', active: 'users' });
+const main = await startPage({ role: 'admin', permission: 'user.view_all', active: 'users' });
 const query = readQuery();
 const ALL = { value: '', label: 'ทั้งหมด' };
 const stateOf = (u) => (u.deletedAt ? 'deleted' : u.isActive ? 'active' : 'suspended');

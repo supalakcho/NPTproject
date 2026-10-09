@@ -14,7 +14,7 @@ import { formatDateTime, formatDuration, toMs } from '../utils/datetime.js';
 import { presentError } from '../utils/errors.js';
 import { validateConfirmReturn } from '../utils/validate.js';
 
-const main = await startPage({ role: 'admin', permission: 'loan.confirm_return', active: 'returns' });
+const main = await startPage({ role: 'admin', permission: 'loan.receive', active: 'returns' });
 const queue = h('div');
 const countEl = h('p', { class: 'muted', 'aria-live': 'polite' });
 
