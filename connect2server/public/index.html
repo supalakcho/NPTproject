@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Management</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Login -->
+  <main id="login-view" class="card narrow" hidden>
+    <h1>Sign in</h1>
+    <form id="login-form" autocomplete="on">
+      <label>Username <input name="username" autocomplete="username" required maxlength="255" autofocus></label>
+      <label>Password <input name="password" type="password" autocomplete="current-password" required></label>
+      <p class="error" id="login-error" role="alert"></p>
+      <button type="submit" class="primary">Sign in</button>
+    </form>
+  </main>
+
+  <!-- App -->
+  <div id="app-view" hidden>
+    <header class="topbar">
+      <strong>User Management</strong>
+      <nav>
+        <button data-tab="users" class="tab active">Users</button>
+        <button data-tab="audit" class="tab" id="audit-tab" hidden>Audit log</button>
+      </nav>
+      <span class="spacer"></span>
+      <span id="whoami"></span>
+      <button id="change-pw-btn">Change password</button>
+      <button id="logout-btn">Sign out</button>
+    </header>
+
+    <p id="banner" class="banner" role="status" hidden></p>
+
+    <section id="users-tab" class="card">
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search username, email, name" maxlength="100">
+        <select id="filter-role"><option value="">All roles</option></select>
+        <select id="filter-status">
+          <option value="">All statuses</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+        <span class="spacer"></span>
+        <button id="new-user-btn" class="primary" hidden>New user</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="username">Username</th>
+            <th data-sort="email">Email</th>
+            <th>Name</th>
+            <th>Roles</th>
+            <th>Status</th>
+            <th data-sort="lastLoginAt">Last login</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="users-body"></tbody>
+      </table>
+      <div class="pager">
+        <button id="prev-page">Prev</button>
+        <span id="page-info"></span>
+        <button id="next-page">Next</button>
+      </div>
+    </section>
+
+    <section id="audit-tab-body" class="card" hidden>
+      <div class="toolbar">
+        <input id="audit-action" placeholder="Action, e.g. LOGIN_FAILED" maxlength="50">
+        <button id="audit-refresh">Search</button>
+      </div>
+      <table>
+        <thead><tr><th>Time</th><th>Action</th><th>Actor</th><th>Entity</th><th>IP</th><th>Details</th></tr></thead>
+        <tbody id="audit-body"></tbody>
+      </table>
+      <div class="pager">
+        <button id="audit-prev">Prev</button>
+        <span id="audit-page-info"></span>
+        <button id="audit-next">Next</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Create / edit user -->
+  <dialog id="user-dialog">
+    <form id="user-form" method="dialog">
+      <h2 id="user-dialog-title"></h2>
+      <label>Username <input name="username" required pattern="[A-Za-z0-9._\-]{3,50}" maxlength="50" autocomplete="off"></label>
+      <label>Email <input name="email" type="email" required maxlength="255" autocomplete="off"></label>
+      <label id="password-row">Password <input name="password" type="password" minlength="10" autocomplete="new-password"></label>
+      <label>First name <input name="firstName" maxlength="100"></label>
+      <label>Last name <input name="lastName" maxlength="100"></label>
+      <label>Phone <input name="phone" maxlength="30" pattern="[0-9+\-() ]*"></label>
+      <label>Status
+        <select name="status"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+      </label>
+      <fieldset id="roles-row"><legend>Roles</legend><div id="roles-box"></div></fieldset>
+      <p class="error" id="user-error" role="alert"></p>
+      <div class="actions">
+        <button type="button" id="user-cancel">Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Reset / change password -->
+  <dialog id="pw-dialog">
+    <form id="pw-form" method="dialog">
+      <h2 id="pw-dialog-title"></h2>
+      <label id="current-pw-row">Current password <input name="currentPassword" type="password" autocomplete="current-password"></label>
+      <label>New password <input name="newPassword" type="password" minlength="10" required autocomplete="new-password"></label>
+      <p class="hint">At least 10 characters with upper-case, lower-case, a digit and a symbol.</p>
+      <p class="error" id="pw-error" role="alert"></p>
+      <div class="actions">
+        <button type="button" id="pw-cancel">Cancel</button>
+        <button type="submit" class="primary">Update</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

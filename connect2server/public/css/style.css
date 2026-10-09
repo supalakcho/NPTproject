@@ -1,0 +1,37 @@
+:root { --bg:#f4f5f7; --fg:#1d2433; --muted:#667085; --line:#d9dde5; --brand:#2457d6; --danger:#c62828; --card:#fff; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#12151c; --fg:#e6e9ef; --muted:#98a2b3; --line:#2b3140; --brand:#6c93ff; --danger:#ff6b6b; --card:#1b1f2a; }
+}
+* { box-sizing: border-box; }
+body { margin:0; font:14px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+[hidden] { display:none !important; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px; margin:16px; }
+.card.narrow { max-width:360px; margin:12vh auto; }
+.topbar { display:flex; gap:12px; align-items:center; padding:10px 16px; background:var(--card); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.spacer { flex:1; }
+.toolbar { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+label { display:block; margin:10px 0; font-weight:600; }
+input, select, button { font:inherit; padding:6px 10px; border:1px solid var(--line); border-radius:6px; background:var(--card); color:var(--fg); }
+label input, label select { display:block; width:100%; margin-top:4px; font-weight:400; }
+button { cursor:pointer; }
+button.primary { background:var(--brand); color:#fff; border-color:var(--brand); }
+button.danger { color:var(--danger); }
+button.tab.active { border-color:var(--brand); color:var(--brand); }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; }
+th[data-sort] { cursor:pointer; }
+td.actions button { margin-right:4px; padding:2px 8px; }
+.pill { padding:1px 8px; border-radius:99px; border:1px solid var(--line); font-size:12px; margin-right:4px; }
+.pill.inactive { color:var(--danger); border-color:var(--danger); }
+.pager { display:flex; gap:12px; align-items:center; justify-content:flex-end; margin-top:12px; }
+.error { color:var(--danger); min-height:1.4em; margin:6px 0; }
+.hint { color:var(--muted); font-size:12px; }
+.banner { margin:12px 16px 0; padding:8px 12px; border-radius:6px; background:var(--card); border:1px solid var(--brand); }
+dialog { border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--fg); width:min(420px, 92vw); }
+dialog::backdrop { background:rgba(0,0,0,.45); }
+fieldset { border:1px solid var(--line); border-radius:6px; margin:10px 0; }
+fieldset label { display:inline-block; margin:0 12px 0 0; font-weight:400; }
+fieldset input { display:inline; width:auto; }
+.actions { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+code { font-size:12px; word-break:break-all; }
+@media (max-width: 720px) { table, thead, tbody, tr, th, td { display:block; } thead { display:none; } tr { border-bottom:2px solid var(--line); padding:6px 0; } }
